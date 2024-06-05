@@ -55,7 +55,7 @@ class AuthService {
     print("photo $photo ${photo.runtimeType}");
     try {
       final result = await dio.post(Api.Profilephoto,
-          data: FormData.fromMap({"file": photo}));
+          data: FormData.fromMap({"file": path}));
       logger.i(result.data);
       return Result(data: result.data);
     } catch (e) {
