@@ -20,24 +20,24 @@ class RegisterScreen extends StatelessWidget {
     final registerBloc = context.read<RegisterBloc>();
     return Scaffold(
         body: SingleChildScrollView(
-      child: Form(
-        key: registerBloc.formkey,
-        child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child: Row(
-              children: [
-                IconButton(
-                    onPressed: () {
-                      StarlightUtils.pushReplacementNamed(RouteName.signUp);
-                    },
-                    icon: const Icon(Icons.arrow_back)),
-              ],
-            ),
+      child: Column(children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 40.0),
+          child: Row(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    StarlightUtils.pushReplacementNamed(RouteName.signUp);
+                  },
+                  icon: const Icon(Icons.arrow_back)),
+            ],
           ),
-          const PhotoPicker(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        ),
+        const PhotoPicker(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+          child: Form(
+            key: registerBloc.formkey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -54,6 +54,35 @@ class RegisterScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const Text(
+                          "Name",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w700),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 17.0),
+                          child: TextFormField(
+                            focusNode: registerBloc.nameFocusNode,
+
+                            // onEditingComplete: () {
+                            //   Injection<AuthService>()
+                            //       .verifyOtp(loginBloc.passwordController.text);
+                            // },
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value?.isNotEmpty != true) {
+                                return "Enter Your Name";
+                              }
+                              return null;
+                            },
+                            controller: registerBloc.name,
+
+                            decoration: const InputDecoration(
+                              hintText: "Enter your name",
+                            ),
+                          ),
+                        ),
                         const Text(
                           "Email",
                           style: TextStyle(
@@ -102,7 +131,9 @@ class RegisterScreen extends StatelessWidget {
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
-                              if (value == null) return "password_is_required";
+                              if (value?.isNotEmpty != true) {
+                                return "password_is_required";
+                              }
                               return null;
                             },
                             controller: registerBloc.password,
@@ -116,7 +147,7 @@ class RegisterScreen extends StatelessWidget {
                                         : Icons.visibility_off,
                                     color: Colors.grey.shade500,
                                   )),
-                              labelText: "enter_your_password",
+                              labelText: "Enter your password",
                             ),
                           );
                         },
@@ -170,6 +201,13 @@ class RegisterScreen extends StatelessWidget {
                       }, listener: (_, state) {
                         if (state is RegisterErrorState) {
                           StarlightUtils.dialog(AlertDialog(
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    StarlightUtils.pop();
+                                  },
+                                  child: const Text("OK"))
+                            ],
                             title: const Text("Failed to Create Acount"),
                             content: Text(state.error),
                           ));
@@ -193,9 +231,9 @@ class RegisterScreen extends StatelessWidget {
                 )
               ],
             ),
-          )
-        ]),
-      ),
+          ),
+        )
+      ]),
     ));
   }
 }

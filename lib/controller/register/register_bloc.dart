@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,17 +20,23 @@ class RegisterBloc extends Bloc<RegisterBaseEvent, RegisterBaseState> {
   final FocusNode passwordFocusNode = FocusNode();
   final ValueNotifier<String> role = ValueNotifier<String>("client");
   final ValueNotifier<bool> isShow = ValueNotifier(false);
+
   String path = "";
   Map<String, dynamic> accessToken = {};
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final AuthService _authService = Locator.get<AuthService>();
   RegisterBloc(super.initialState) {
-    on<RegisterEvent>((_, event) async {
+    on<RegisterEvent>((event, emit) async {
+      print(state.path);
+
       print("register event $state");
       if (formkey.currentState?.validate() != true ||
           state is RegisterLoadingState) return;
-
       emit(RegisterLoadingState(state.path));
+      if (state.path.isNotEmpty != true) {
+        emit(RegisterErrorState("Avator Photo is Required", path));
+        return;
+      }
       final result = await _authService.signUp(UserParams.toCreate(
           name: name.text,
           email: email.text,
@@ -42,9 +51,15 @@ class RegisterBloc extends Bloc<RegisterBaseEvent, RegisterBaseState> {
       accessToken = result.data;
       emit(RegisterSuccessState(state.path));
     });
-    on<RegisterPickPhotoEvent>((_, event) async {
+    on<RegisterPickPhotoEvent>((event, emit) async {
       final image = await _imagePicker.pickImage(source: ImageSource.gallery);
       if (image == null) return;
+
+      final result = await _authService.uploadPhoto(File(image.path));
+      if (result.hasError) {
+        emit(RegisterErrorState(result.error!.messsage.toString(), ""));
+        return;
+      }
       path = image.path;
       emit(RegisterPickedImageState(path));
     });
@@ -58,5 +73,19 @@ class RegisterBloc extends Bloc<RegisterBaseEvent, RegisterBaseState> {
   void toggle() {
     print(isShow.value);
     isShow.value = !isShow.value;
+  }
+
+  @override
+  Future<void> close() {
+    nameFocusNode.dispose();
+    emaiFocusNode.dispose();
+    passwordFocusNode.dispose();
+    name.dispose();
+    email.dispose();
+    password.dispose();
+    role.dispose();
+    isShow.dispose();
+    // TODO: implement close
+    return super.close();
   }
 }

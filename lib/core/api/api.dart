@@ -11,4 +11,7 @@ abstract class Api {
 
 //* User
   static const String GetAllUsers = "$URLV1/users";
+
+  //*Upload
+  static const String Profilephoto = "$URLV1/files/upload";
 }

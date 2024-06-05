@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:platzi_app/core/api/api.dart';
@@ -10,6 +11,9 @@ import 'package:platzi_app/locator.dart';
 
 class AuthService {
   final dio = Locator.get<Dio>();
+  final StreamController<String> _photo = StreamController.broadcast();
+  Stream<String> get photo => _photo.stream;
+
   // final StreamController _authstateController = StreamController.broadcast();
   // Stream get authStateChange => _authstateController.stream;
   AuthService();
@@ -43,6 +47,19 @@ class AuthService {
       return Result(data: result.data);
     } catch (e) {
       logger.i(e);
+      return Result(error: GeneralError(e.toString()));
+    }
+  }
+
+  Future<Result> uploadPhoto(File path) async {
+    final photo = await path.writeAsBytes();
+    print("photo $photo ${photo.runtimeType}");
+    try {
+      final result = await dio.post(Api.Profilephoto,
+          data: FormData.fromMap({"file": photo}));
+      logger.i(result.data);
+      return Result(data: result.data);
+    } catch (e) {
       return Result(error: GeneralError(e.toString()));
     }
   }
