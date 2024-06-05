@@ -52,7 +52,6 @@ class AuthService {
   }
 
   Future<Result> uploadPhoto(File path) async {
-    final photo = await path.writeAsBytes();
     print("photo $photo ${photo.runtimeType}");
     try {
       final result = await dio.post(Api.Profilephoto,
