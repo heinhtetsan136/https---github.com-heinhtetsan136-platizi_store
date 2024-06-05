@@ -26,6 +26,10 @@ class RegisterPickedImageState extends RegisterBaseState {
   RegisterPickedImageState(super.path);
 }
 
+class RegisterPickedImageLoadingState extends RegisterBaseState {
+  RegisterPickedImageLoadingState(super.path);
+}
+
 class RegisterErrorState extends RegisterBaseState {
   final String error;
   RegisterErrorState(this.error, super.path);

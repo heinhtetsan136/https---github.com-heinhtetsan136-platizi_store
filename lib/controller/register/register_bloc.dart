@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:platzi_app/controller/register/register_event.dart';
 import 'package:platzi_app/controller/register/register_state.dart';
 import 'package:platzi_app/core/entity/usermodel.dart';
+import 'package:platzi_app/core/logger/logger.dart';
 import 'package:platzi_app/core/service/auth_service.dart';
 import 'package:platzi_app/locator.dart';
 
@@ -31,7 +32,8 @@ class RegisterBloc extends Bloc<RegisterBaseEvent, RegisterBaseState> {
 
       print("register event $state");
       if (formkey.currentState?.validate() != true ||
-          state is RegisterLoadingState) return;
+          state is RegisterLoadingState ||
+          state is RegisterPickedImageLoadingState) return;
       emit(RegisterLoadingState(state.path));
       if (state.path.isNotEmpty != true) {
         emit(RegisterErrorState("Avator Photo is Required", path));
@@ -52,6 +54,8 @@ class RegisterBloc extends Bloc<RegisterBaseEvent, RegisterBaseState> {
       emit(RegisterSuccessState(state.path));
     });
     on<RegisterPickPhotoEvent>((event, emit) async {
+      if (state is RegisterPickedImageLoadingState) return;
+      emit(RegisterPickedImageLoadingState(path));
       final image = await _imagePicker.pickImage(source: ImageSource.gallery);
       if (image == null) return;
 
@@ -60,8 +64,9 @@ class RegisterBloc extends Bloc<RegisterBaseEvent, RegisterBaseState> {
         emit(RegisterErrorState(result.error!.messsage.toString(), ""));
         return;
       }
-      path = image.path;
-      emit(RegisterPickedImageState(path));
+      path = result.data["location"];
+      logger.i(result.data["location"]);
+      emit(RegisterPickedImageState(image.path));
     });
   }
   void changeRole(String value) {

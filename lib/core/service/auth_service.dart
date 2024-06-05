@@ -54,8 +54,9 @@ class AuthService {
   Future<Result> uploadPhoto(File path) async {
     print("photo $photo ${photo.runtimeType}");
     try {
+      final fileBinary = await MultipartFile.fromFile(path.path);
       final result = await dio.post(Api.Profilephoto,
-          data: FormData.fromMap({"file": path}));
+          data: FormData.fromMap({"file": fileBinary}));
       logger.i(result.data);
       return Result(data: result.data);
     } catch (e) {

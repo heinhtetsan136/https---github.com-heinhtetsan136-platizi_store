@@ -192,6 +192,10 @@ class RegisterScreen extends StatelessWidget {
                       },
                       child: BlocConsumer<RegisterBloc, RegisterBaseState>(
                           builder: (_, state) {
+                        if (state is RegisterPickedImageLoadingState) {
+                          return const Text(
+                              "Please wait while uploading photo");
+                        }
                         if (state is RegisterLoadingState) {
                           return const Center(
                             child: CupertinoActivityIndicator(),
@@ -250,13 +254,14 @@ class PhotoPicker extends StatelessWidget {
       },
       child: BlocBuilder<RegisterBloc, RegisterBaseState>(
         builder: (_, state) {
-          logger.w("ShopCoverPhotoPicker builder get an event");
+          logger.w(
+              "ShopCoverPhotoPicker builder get an event ${registerBloc.path}");
 
           final path = registerBloc.path;
           if (path.isNotEmpty) {
             return CircleAvatar(
               radius: 80,
-              backgroundImage: FileImage(File(path)),
+              backgroundImage: FileImage(File(state.path)),
             );
           }
           return Container(
