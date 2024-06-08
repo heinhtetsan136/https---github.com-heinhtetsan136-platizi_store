@@ -38,12 +38,15 @@ class AuthService {
 
       return Result(data: result.data);
     } on DioException catch (e) {
+      logger.e(e.toString());
+
       logger.e("error ${e.response?.statusCode == 401}");
       if (e.response?.statusCode == 401) {
         return Result(error: GeneralError("UnAuthorized Error"));
       }
       return Result(error: GeneralError("Please Login First"));
     } catch (e) {
+      logger.e(e.toString());
       return Result(error: GeneralError("Please Login First"));
     }
   }

@@ -39,7 +39,7 @@ class SplashScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Pleas Wait"),
+                    Text("Please Wait"),
                     SizedBox(
                       width: 10,
                     ),

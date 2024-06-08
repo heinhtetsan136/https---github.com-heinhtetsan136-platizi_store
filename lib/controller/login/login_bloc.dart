@@ -33,7 +33,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginBaseState> {
         emit(const LoginFailState("Your account token are not found"));
       }
       logger.i(
-          "token are ${(await _sharePref.getToken(ToeknKey.accesstoken)).data}.${await _sharePref.getToken(ToeknKey.refreshtoken)}");
+          "token are ${(await _sharePref.getToken(ToeknKey.accesstoken)).data}.${(await _sharePref.getToken(ToeknKey.refreshtoken)).data}");
       logger.i("result in login ${result.data}");
       emit(const LoginSuccessState());
     });
