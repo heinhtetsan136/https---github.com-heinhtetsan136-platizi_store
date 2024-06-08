@@ -7,11 +7,14 @@ abstract class Api {
 //* Auth
   static const String LoginAPI = "/auth/login";
   static const String ProfileAPI = "/auth/profile";
-  static const String RefreshAPI = "/auth/refresh";
+  static const String RefreshAPI = "/auth/refresh-token";
 
 //* User
   static const String GetAllUsers = "$URLV1/users";
 
   //*Upload
   static const String Profilephoto = "$URLV1/files/upload";
+  //* Check
+  static const String CheckEmail = "$GetAllUsers/is-available";
+  //*
 }

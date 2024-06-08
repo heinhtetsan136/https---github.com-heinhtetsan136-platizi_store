@@ -27,7 +27,7 @@ class RegisterScreen extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: () {
-                    StarlightUtils.pushReplacementNamed(RouteName.signUp);
+                    StarlightUtils.pushReplacementNamed(RouteName.login);
                   },
                   icon: const Icon(Icons.arrow_back)),
             ],
@@ -228,7 +228,7 @@ class RegisterScreen extends StatelessWidget {
                     const Text("Already have an account?"),
                     TextButton(
                         onPressed: () {
-                          StarlightUtils.pushReplacementNamed(RouteName.signUp);
+                          StarlightUtils.pushReplacementNamed(RouteName.login);
                         },
                         child: const Text("Login"))
                   ],

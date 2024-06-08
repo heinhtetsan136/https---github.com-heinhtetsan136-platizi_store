@@ -97,16 +97,16 @@ class LoginScreen extends StatelessWidget {
                                   focusNode: loginBloc.passwordFocusNode,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
-                                  validator: (value) {
-                                    if (value == null) {
-                                      return "password_is_required";
-                                    }
-                                    return value.isStrongPassword(
-                                      minLength: 6,
-                                      checkUpperCase: false,
-                                      checkSpecailChar: false,
-                                    );
-                                  },
+                                  // validator: (value) {
+                                  //   // if (value == null) {
+                                  //   //   return "password_is_required";
+                                  //   // }
+                                  //   // return value.isStrongPassword(
+                                  //   //   minLength: 6,
+                                  //   //   checkUpperCase: false,
+                                  //   //   checkSpecailChar: false,
+                                  //   // );
+                                  // },
                                   controller: loginBloc.password,
                                   obscureText: !value,
                                   decoration: InputDecoration(
@@ -144,14 +144,22 @@ class LoginScreen extends StatelessWidget {
                               return const Text("Login");
                             }, listener: (_, state) {
                               if (state is LoginFailState) {
-                                StarlightUtils.snackbar(const SnackBar(
-                                  content: Text("Failed to Login )"),
+                                StarlightUtils.dialog(AlertDialog(
+                                  title: const Text("Failed to Login "),
+                                  content: Text(state.error),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          StarlightUtils.pop();
+                                        },
+                                        child: const Text("OK"))
+                                  ],
                                 ));
                               }
                               if (state is LoginSuccessState) {
                                 StarlightUtils.pushReplacementNamed(
-                                    RouteName.home,
-                                    arguments: loginBloc.token);
+                                  RouteName.home,
+                                );
                               }
                             })),
                       ),

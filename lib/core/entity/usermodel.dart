@@ -2,7 +2,7 @@ import 'package:platzi_app/core/interface/model_interface.dart';
 import 'package:platzi_app/core/interface/params_model.dart';
 
 class User extends ModelInterface {
-  final String name, email, password, role, avator;
+  final String name, email, password, role, avatar;
   final DateTime creationAt, updatedAt;
 
   User(
@@ -10,7 +10,7 @@ class User extends ModelInterface {
       required this.email,
       required this.password,
       required this.role,
-      required this.avator,
+      required this.avatar,
       required this.creationAt,
       required this.updatedAt,
       required super.id});
@@ -23,7 +23,7 @@ class User extends ModelInterface {
         role: data["role"],
         creationAt: DateTime.parse(data["creationAt"]),
         updatedAt: DateTime.parse(data["updatedAt"]),
-        avator: data["avator"]);
+        avatar: data["avatar"]);
   }
   @override
   Map<String, dynamic> toJson() {
@@ -33,7 +33,7 @@ class User extends ModelInterface {
       "email": email,
       "password": password,
       "role": role,
-      "avator": avator,
+      "avatar": avatar,
       "creationAt": creationAt,
       "updatedAt": updatedAt
     };
@@ -41,42 +41,42 @@ class User extends ModelInterface {
 }
 
 class UserParams extends ModelParams {
-  final String name, email, password, role, avator;
+  final String name, email, password, role, avatar;
 
   UserParams._(
       {required this.name,
       required this.email,
       required this.password,
       required this.role,
-      required this.avator});
+      required this.avatar});
 
   factory UserParams.toCreate({
     required String name,
     required String email,
     required String password,
     required String role,
-    required String avator,
+    required String avatar,
   }) {
     return UserParams._(
         name: name,
         email: email,
         password: password,
         role: role,
-        avator: avator);
+        avatar: avatar);
   }
   factory UserParams.toUpdate({
     String? name,
     String? email,
     String? password,
     String? role,
-    String? avator,
+    String? avatar,
   }) {
     return UserParams._(
         name: name ?? "",
         email: email ?? "",
         password: password ?? "",
         role: role ?? "",
-        avator: avator ?? "");
+        avatar: avatar ?? "");
   }
 
   @override
@@ -86,7 +86,7 @@ class UserParams extends ModelParams {
     if (email.isNotEmpty == true) payload["email"] = email;
     if (password.isNotEmpty == true) payload["password"] = password;
     if (role.isNotEmpty == true) payload["role"] = role;
-    if (avator.isNotEmpty == true) payload["avator"] = avator;
+    if (avatar.isNotEmpty == true) payload["avatar"] = avatar;
     return payload;
   }
 
@@ -96,7 +96,7 @@ class UserParams extends ModelParams {
       "name": name,
       "email": email,
       "password": password,
-      "avatar": avator,
+      "avatar": avatar,
     };
   }
 }

@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:platzi_app/controller/login/login_event.dart';
 import 'package:platzi_app/controller/login/login_state.dart';
+import 'package:platzi_app/core/entity/token.dart';
+import 'package:platzi_app/core/logger/logger.dart';
 import 'package:platzi_app/core/service/auth_service.dart';
+import 'package:platzi_app/core/service/share_pref.dart';
+import 'package:platzi_app/core/utils/toekn_key.dart';
 import 'package:platzi_app/locator.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginBaseState> {
@@ -13,7 +17,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginBaseState> {
   final FocusNode emailFocusNode = FocusNode();
   final FocusNode passwordFocusNode = FocusNode();
   final ValueNotifier<bool> isShow = ValueNotifier(false);
-  late final String token;
+  final SharePref _sharePref = Locator.get<SharePref>();
   LoginBloc(super.initialState) {
     on<OnLoginEvent>((_, emit) async {
       if (formkey?.currentState?.validate() != true ||
@@ -24,7 +28,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginBaseState> {
         emit(LoginFailState(result.error!.messsage.toString()));
         return;
       }
-      token = result.data.toString();
+      final token = await _sharePref.saveToken(Token.fromJson(result.data));
+      if (token.hasError) {
+        emit(const LoginFailState("Your account token are not found"));
+      }
+      logger.i(
+          "token are ${(await _sharePref.getToken(ToeknKey.accesstoken)).data}.${await _sharePref.getToken(ToeknKey.refreshtoken)}");
+      logger.i("result in login ${result.data}");
       emit(const LoginSuccessState());
     });
   }

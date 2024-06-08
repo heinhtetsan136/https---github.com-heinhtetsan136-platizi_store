@@ -4,9 +4,11 @@ import 'package:platzi_app/route/router.dart';
 import 'package:platzi_app/theme/theme.dart';
 import 'package:starlight_utils/starlight_utils.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  setUp();
+Future<void> main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  await setUp();
+
   runApp(const MyApp());
 }
 

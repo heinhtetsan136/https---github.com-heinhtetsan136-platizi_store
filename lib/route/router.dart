@@ -4,14 +4,17 @@ import 'package:platzi_app/controller/login/login_bloc.dart';
 import 'package:platzi_app/controller/login/login_state.dart';
 import 'package:platzi_app/controller/register/register_bloc.dart';
 import 'package:platzi_app/controller/register/register_state.dart';
+import 'package:platzi_app/controller/splash_sreen%20controller/splash_screen_bloc.dart';
+import 'package:platzi_app/controller/splash_sreen%20controller/splash_screen_state.dart';
 import 'package:platzi_app/prensentation/screen/auth/login_screen.dart';
 import 'package:platzi_app/prensentation/screen/auth/register_screen.dart';
 import 'package:platzi_app/prensentation/screen/home/home_screen.dart';
 import 'package:platzi_app/route/route_name.dart';
+import 'package:platzi_app/splash_screen.dart';
 
 Route router(RouteSettings settings) {
   switch (settings.name) {
-    case RouteName.signUp:
+    case RouteName.login:
       return _routebuilder(
           BlocProvider(
               create: (_) => LoginBloc(const LoginInitialState()),
@@ -28,8 +31,9 @@ Route router(RouteSettings settings) {
     default:
       return _routebuilder(
           BlocProvider(
-              create: (_) => LoginBloc(const LoginInitialState()),
-              child: const LoginScreen()),
+            child: const SplashScreen(),
+            create: (_) => SplashScreenBloc(SplashScreenInitialState()),
+          ),
           settings);
   }
 }

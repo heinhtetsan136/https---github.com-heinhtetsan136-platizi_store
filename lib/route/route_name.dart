@@ -1,3 +1,3 @@
 class RouteName {
-  static const String signUp = "/signup", signin = "/signin", home = "/home";
+  static const String login = "/login", signin = "/signin", home = "/home";
 }
