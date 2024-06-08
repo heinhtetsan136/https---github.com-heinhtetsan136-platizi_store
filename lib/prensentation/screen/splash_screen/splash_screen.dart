@@ -24,9 +24,29 @@ class SplashScreen extends StatelessWidget {
       },
       builder: (_, state) {
         return Scaffold(
-          body: Container(
-            child: const Center(
-              child: CupertinoActivityIndicator(),
+          body: SizedBox(
+            width: context.width,
+            height: context.height,
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FlutterLogo(
+                  size: 120,
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Pleas Wait"),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    CupertinoActivityIndicator(),
+                  ],
+                ),
+              ],
             ),
           ),
         );

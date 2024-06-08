@@ -9,8 +9,8 @@ import 'package:platzi_app/controller/splash_sreen%20controller/splash_screen_st
 import 'package:platzi_app/prensentation/screen/auth/login_screen.dart';
 import 'package:platzi_app/prensentation/screen/auth/register_screen.dart';
 import 'package:platzi_app/prensentation/screen/home/home_screen.dart';
+import 'package:platzi_app/prensentation/screen/splash_screen/splash_screen.dart';
 import 'package:platzi_app/route/route_name.dart';
-import 'package:platzi_app/splash_screen.dart';
 
 Route router(RouteSettings settings) {
   switch (settings.name) {
