@@ -28,6 +28,13 @@ Route router(RouteSettings settings) {
           settings);
     case RouteName.home:
       return _routebuilder(const HomeScreen(), settings);
+    case RouteName.spalsh:
+      return _routebuilder(
+          BlocProvider(
+            child: const SplashScreen(),
+            create: (_) => SplashScreenBloc(SplashScreenInitialState()),
+          ),
+          settings);
     default:
       return _routebuilder(
           BlocProvider(
