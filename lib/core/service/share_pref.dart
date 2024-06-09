@@ -25,7 +25,7 @@ class SharePref {
 
       return Result(data: token);
     } catch (e) {
-      return Result(error: GeneralError("error while saving tokens"));
+      return Result(error: GeneralError(e.toString()));
     }
   }
 }

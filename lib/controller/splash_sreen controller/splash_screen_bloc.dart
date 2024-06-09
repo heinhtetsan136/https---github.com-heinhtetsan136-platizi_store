@@ -23,6 +23,10 @@ class SplashScreenBloc extends Bloc<SplashScrrenBaseEvent, SplashScreenState> {
       // await _sharedPreferences
       //     .saveToken(Token(acesstoken: "", refreshtoken: " refreshToken.data"));/// changing login
       emit(SplashScreenLoadingState());
+      if (accessToken.hasError || refreshToken.hasError) {
+        emit(SplashScreenErrorState("UnAuthorized"));
+        return;
+      }
       final result = await hasUser(accessToken.data, refreshToken.data);
       if (result.hasError) {
         final data = await _authService
