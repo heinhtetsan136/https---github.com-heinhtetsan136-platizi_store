@@ -1,5 +1,6 @@
 import 'package:platzi_app/core/entity/token.dart';
 import 'package:platzi_app/core/error/error.dart';
+import 'package:platzi_app/core/logger/logger.dart';
 import 'package:platzi_app/core/model/result.dart';
 import 'package:platzi_app/locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +23,10 @@ class SharePref {
   Future<Result> getToken(String key) async {
     try {
       final token = sharedPreferences.getString(key);
-
+      logger.i("token $token");
+      if (token == null) {
+        return Result(error: GeneralError("Please Login first"));
+      }
       return Result(data: token);
     } catch (e) {
       return Result(error: GeneralError(e.toString()));
