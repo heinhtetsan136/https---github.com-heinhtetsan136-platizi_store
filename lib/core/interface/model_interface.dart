@@ -2,7 +2,10 @@ import 'dart:convert';
 
 abstract class ModelInterface {
   final int id;
-  const ModelInterface({required this.id});
+  final DateTime creationAt;
+  final DateTime updatedAt;
+  const ModelInterface(
+      {required this.id, required this.creationAt, required this.updatedAt});
   Map<String, dynamic> toJson();
 
   @override

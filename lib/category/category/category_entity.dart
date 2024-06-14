@@ -1,15 +1,24 @@
 import 'package:platzi_app/core/interface/model_interface.dart';
 import 'package:platzi_app/core/interface/params_model.dart';
+import 'package:platzi_app/core/logger/logger.dart';
 
 class Category extends ModelInterface {
   final String name;
   final Uri? image;
 
-  Category._({required super.id, required this.name, required this.image});
+  Category._(
+      {required super.id,
+      required this.name,
+      required this.image,
+      required super.creationAt,
+      required super.updatedAt});
   factory Category.fromJson(dynamic data) {
+    logger.i("from model ${data.toString()}");
     return Category._(
-        id: data["id"],
+        id: int.parse(data["id"]),
         name: data["name"],
+        creationAt: DateTime.parse(data["creationAt"]),
+        updatedAt: DateTime.parse(data["updatedAt"]),
         image: Uri.tryParse(data["image"] ?? ""));
   }
   @override

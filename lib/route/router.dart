@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:platzi_app/category/category/category_repo.dart';
+import 'package:platzi_app/category/controller/category_list_bloc.dart';
+import 'package:platzi_app/category/controller/category_list_state.dart';
 import 'package:platzi_app/controller/login/login_bloc.dart';
 import 'package:platzi_app/controller/login/login_state.dart';
 import 'package:platzi_app/controller/register/register_bloc.dart';
 import 'package:platzi_app/controller/register/register_state.dart';
 import 'package:platzi_app/controller/splash_sreen%20controller/splash_screen_cubit.dart';
+import 'package:platzi_app/locator.dart';
 import 'package:platzi_app/prensentation/screen/auth/login_screen.dart';
 import 'package:platzi_app/prensentation/screen/auth/register_screen.dart';
 import 'package:platzi_app/prensentation/screen/home/controller/dashboard_bloc.dart';
@@ -27,12 +31,16 @@ Route router(RouteSettings settings) {
               create: (_) => RegisterBloc(RegisterInitialState("")),
               child: const RegisterScreen()),
           settings);
-    case RouteName.home:
+    case RouteName.Dashboard:
       return _routebuilder(
-          BlocProvider(
-              create: (_) =>
-                  DashboardNavigationBloc(const DashboardNavigationState(0)),
-              child: const DashboardScreen()),
+          MultiBlocProvider(providers: [
+            BlocProvider(
+                create: (_) =>
+                    DashboardNavigationBloc(const DashboardNavigationState(0))),
+            BlocProvider(
+                create: (_) => CategoryListBloc(
+                    const CategoryInitialState(), Locator.get<CategoryRepo>()))
+          ], child: const DashboardScreen()),
           settings);
     case RouteName.spalsh:
       return _routebuilder(

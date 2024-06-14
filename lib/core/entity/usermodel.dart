@@ -3,7 +3,6 @@ import 'package:platzi_app/core/interface/params_model.dart';
 
 class User extends ModelInterface {
   final String name, email, password, role, avatar;
-  final DateTime creationAt, updatedAt;
 
   User._(
       {required this.name,
@@ -11,8 +10,8 @@ class User extends ModelInterface {
       required this.password,
       required this.role,
       required this.avatar,
-      required this.creationAt,
-      required this.updatedAt,
+      required super.creationAt,
+      required super.updatedAt,
       required super.id});
   factory User.fromJson(dynamic data) {
     return User._(

@@ -218,7 +218,7 @@ class RegisterScreen extends StatelessWidget {
                         }
                         if (state is RegisterSuccessState) {
                           StarlightUtils.pushReplacementNamed(
-                            RouteName.home,
+                            RouteName.Dashboard,
                           );
                         }
                       })),

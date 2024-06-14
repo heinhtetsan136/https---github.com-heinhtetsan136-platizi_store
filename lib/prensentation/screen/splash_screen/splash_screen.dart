@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
           StarlightUtils.snackbar(SnackBar(content: Text(state.message)));
         }
         if (state is SplashScreengotoHome) {
-          StarlightUtils.pushReplacementNamed(RouteName.home);
+          StarlightUtils.pushReplacementNamed(RouteName.Dashboard);
         }
       },
       builder: (_, state) {

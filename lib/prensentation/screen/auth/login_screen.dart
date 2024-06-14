@@ -158,7 +158,7 @@ class LoginScreen extends StatelessWidget {
                               }
                               if (state is LoginSuccessState) {
                                 StarlightUtils.pushReplacementNamed(
-                                  RouteName.home,
+                                  RouteName.Dashboard,
                                 );
                               }
                             })),
