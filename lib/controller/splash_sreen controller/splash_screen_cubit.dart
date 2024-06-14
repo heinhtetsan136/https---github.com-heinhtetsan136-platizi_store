@@ -5,9 +5,7 @@ import 'package:platzi_app/core/model/token.dart';
 import 'package:platzi_app/core/service/auth_service.dart';
 import 'package:platzi_app/core/utils/toekn_key.dart';
 import 'package:platzi_app/locator.dart';
-import 'package:platzi_app/route/route_name.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:starlight_utils/starlight_utils.dart';
 
 class SplashScreenCubit extends Cubit<SplashScreenState> {
   final AuthService _authService = Locator.get<AuthService>();
@@ -26,7 +24,7 @@ class SplashScreenCubit extends Cubit<SplashScreenState> {
     if (!(tokens[TokenKey.accesstoken]?.isNotEmpty == true) ||
         !(tokens[TokenKey.refreshtoken]?.isNotEmpty == true)) {
       logger.e("No token");
-      StarlightUtils.pushReplacementNamed(RouteName.login);
+      emit(SplashScreenLoginState("PleaseLoginFires"));
       return;
     }
     logger.e("Have token");
@@ -37,7 +35,7 @@ class SplashScreenCubit extends Cubit<SplashScreenState> {
       final renewtoken = await _authService
           .getAccessTokenwithRefreshToken(tokens[TokenKey.refreshtoken]!);
       if (renewtoken.hasError) {
-        StarlightUtils.pushReplacementNamed(RouteName.login);
+        emit(SplashScreenLoginState("PleaseLoginFirst"));
         return;
       }
       final Token token = Token.fromJson(renewtoken.data);
@@ -49,6 +47,6 @@ class SplashScreenCubit extends Cubit<SplashScreenState> {
       // emit(state)
     }
     //     // await _sharedPreferences
-    StarlightUtils.pushReplacementNamed(RouteName.home);
+    emit(SplashScreengotoHome());
   }
 }
