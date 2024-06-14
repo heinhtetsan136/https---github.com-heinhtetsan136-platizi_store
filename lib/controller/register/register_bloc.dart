@@ -6,12 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:platzi_app/controller/register/register_event.dart';
 import 'package:platzi_app/controller/register/register_state.dart';
-import 'package:platzi_app/core/entity/token.dart';
 import 'package:platzi_app/core/entity/usermodel.dart';
 import 'package:platzi_app/core/logger/logger.dart';
+import 'package:platzi_app/core/model/token.dart';
 import 'package:platzi_app/core/service/auth_service.dart';
-import 'package:platzi_app/core/service/share_pref.dart';
+import 'package:platzi_app/core/utils/toekn_key.dart';
 import 'package:platzi_app/locator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterBloc extends Bloc<RegisterBaseEvent, RegisterBaseState> {
   final ImagePicker _imagePicker = Locator.get<ImagePicker>();
@@ -23,9 +24,10 @@ class RegisterBloc extends Bloc<RegisterBaseEvent, RegisterBaseState> {
   final FocusNode passwordFocusNode = FocusNode();
   final ValueNotifier<String> role = ValueNotifier<String>("client");
   final ValueNotifier<bool> isShow = ValueNotifier(false);
-  final SharePref _sharePref = Locator.get<SharePref>();
+
   String path = "";
-  Map<String, dynamic> accessToken = {};
+  final SharedPreferences _sharedPreferences = Locator.get<SharedPreferences>();
+
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final AuthService _authService = Locator.get<AuthService>();
   RegisterBloc(super.initialState) {
@@ -53,7 +55,11 @@ class RegisterBloc extends Bloc<RegisterBaseEvent, RegisterBaseState> {
         return;
       }
       logger.i("register bloc ${result.data}");
-      final token = await _sharePref.saveToken(Token.fromJson(result.data));
+      final tokens = Token.fromJson(result.data);
+      await _sharedPreferences.setString(
+          TokenKey.accesstoken, tokens.acesstoken);
+      await _sharedPreferences.setString(
+          TokenKey.refreshtoken, tokens.refreshtoken);
       emit(RegisterSuccessState(state.path));
     });
     on<RegisterPickPhotoEvent>((event, emit) async {

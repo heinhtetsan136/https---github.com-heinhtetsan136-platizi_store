@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:platzi_app/core/service/auth_service.dart';
-import 'package:platzi_app/core/service/share_pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 GetIt Locator = GetIt.asNewInstance();
@@ -16,5 +15,5 @@ Future<void> setUp() async {
   Locator.registerLazySingleton(() => AuthService());
   Locator.registerLazySingleton(() => ImagePicker());
   Locator.registerLazySingleton(() => sharedPreferences);
-  Locator.registerLazySingleton(() => SharePref());
+  // Locator.registerLazySingleton(() => SharePref);
 }

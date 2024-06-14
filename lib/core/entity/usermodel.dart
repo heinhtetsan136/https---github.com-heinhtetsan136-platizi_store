@@ -5,7 +5,7 @@ class User extends ModelInterface {
   final String name, email, password, role, avatar;
   final DateTime creationAt, updatedAt;
 
-  User(
+  User._(
       {required this.name,
       required this.email,
       required this.password,
@@ -15,7 +15,7 @@ class User extends ModelInterface {
       required this.updatedAt,
       required super.id});
   factory User.fromJson(dynamic data) {
-    return User(
+    return User._(
         id: data["id"],
         name: data["name"],
         email: data["email"],

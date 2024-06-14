@@ -17,17 +17,17 @@ class AuthService {
   // final StreamController _authstateController = StreamController.broadcast();
   // Stream get authStateChange => _authstateController.stream;
   AuthService();
-  Future<Result> getUserSection(String accesstoken, String refreshtoken) async {
-    try {
-      final result = await getUserwithAccessToken(accesstoken);
-      logger.i("getuser ${result.hasError}");
+  // Future<Result> getUserSection(String accesstoken, String refreshtoken) async {
+  //   try {
+  //     final result = await getUserProfielwithAccessToken(accesstoken);
+  //     logger.i("getuser ${result.hasError}");
 
-      logger.i("getuser ${result.data}");
-      return Result(data: result);
-    } catch (e) {
-      return Result(error: GeneralError("Check Your Connection"));
-    }
-  }
+  //     logger.i("getuser ${result.data}");
+  //     return Result(data: result);
+  //   } catch (e) {
+  //     return Result(error: GeneralError("Check Your Connection"));
+  //   }
+  // }
 
   Future<Result> getAccessTokenwithRefreshToken(String refreshToken) async {
     logger.i("getaccessTokenwithrefreshtoken $refreshToken");
@@ -51,7 +51,7 @@ class AuthService {
     }
   }
 
-  Future<Result> getUserwithAccessToken(String accessToken) async {
+  Future<Result> getUserProfielwithAccessToken(String accessToken) async {
     try {
       final result = await dio.get("${Api.URLV1}${Api.ProfileAPI}",
           options: Options(headers: {"Authorization": "Bearer $accessToken"}));
@@ -71,7 +71,7 @@ class AuthService {
         "password": password,
       });
 
-      logger.i(result.data);
+      logger.i("login ${result.data}");
 
       return Result(data: result.data);
     } catch (e) {
@@ -92,7 +92,7 @@ class AuthService {
     logger.i("user ${user.email}");
     final token = await login(user.email, user.password);
     if (token.hasError) {
-      return Result(error: GeneralError("Token cannot be had"));
+      return Result(error: GeneralError("Token cannot be access"));
     }
     logger.i(token.data);
 

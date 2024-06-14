@@ -5,7 +5,7 @@ import 'package:platzi_app/theme/theme.dart';
 import 'package:starlight_utils/starlight_utils.dart';
 
 Future<void> main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
   await setUp();
 

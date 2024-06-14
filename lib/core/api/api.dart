@@ -3,6 +3,8 @@ abstract class Api {
 
   static const BaseURl = "https://api.escuelajs.co";
   static const URLV1 = "$BaseURl/api/v1";
+  //*
+  static const String GetAllCategory = "$URLV1/categories";
 
 //* Auth
   static const String LoginAPI = "/auth/login";

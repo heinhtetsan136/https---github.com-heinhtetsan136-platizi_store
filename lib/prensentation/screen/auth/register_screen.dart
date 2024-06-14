@@ -217,8 +217,9 @@ class RegisterScreen extends StatelessWidget {
                           ));
                         }
                         if (state is RegisterSuccessState) {
-                          StarlightUtils.pushReplacementNamed(RouteName.home,
-                              arguments: registerBloc.accessToken);
+                          StarlightUtils.pushReplacementNamed(
+                            RouteName.home,
+                          );
                         }
                       })),
                 ),
