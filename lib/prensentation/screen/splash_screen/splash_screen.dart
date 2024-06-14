@@ -7,8 +7,25 @@ import 'package:platzi_app/core/logger/logger.dart';
 import 'package:platzi_app/route/route_name.dart';
 import 'package:starlight_utils/starlight_utils.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final bloc = context.read<SplashScreenCubit>();
+    WidgetsBinding.instance.addPostFrameCallback((timestamp) {
+      Future.delayed(const Duration(milliseconds: 1500), () {
+        bloc.verified();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

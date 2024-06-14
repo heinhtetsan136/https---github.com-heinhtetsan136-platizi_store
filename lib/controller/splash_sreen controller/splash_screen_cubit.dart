@@ -10,9 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SplashScreenCubit extends Cubit<SplashScreenState> {
   final AuthService _authService = Locator.get<AuthService>();
   Map<String, String?> tokens = {};
-  SplashScreenCubit() : super(SplashScreenInitialState()) {
-    verified();
-  }
+  SplashScreenCubit() : super(SplashScreenInitialState());
   final SharedPreferences sharedPreferences = Locator.get<SharedPreferences>();
   void verified() async {
     emit(SplashScreenLoadingState());
